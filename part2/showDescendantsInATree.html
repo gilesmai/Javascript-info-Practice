@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+  <body>
+    <ul>
+      <li>
+        Animals
+        <ul>
+          <li>
+            Mammals
+            <ul>
+              <li>Cows</li>
+              <li>Donkeys</li>
+              <li>Dogs</li>
+              <li>Tigers</li>
+            </ul>
+          </li>
+          <li>
+            Other
+            <ul>
+              <li>Snakes</li>
+              <li>Birds</li>
+              <li>Lizards</li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+      <li>
+        Fishes
+        <ul>
+          <li>
+            Aquarium
+            <ul>
+              <li>Guppy</li>
+              <li>Angelfish</li>
+            </ul>
+          </li>
+          <li>
+            Sea
+            <ul>
+              <li>Sea trout</li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+    </ul>
+
+    <script>
+      const listItems = document.querySelectorAll('li');
+      for (const li of listItems) {
+        if (li.childElementCount != 0) {
+          li.firstChild.data += `[${li.querySelectorAll('li').length}]`;
+        }
+      }
+      // ... your code ...
+    </script>
+  </body>
+</html>
