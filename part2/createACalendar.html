@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <style>
+      table {
+        border-collapse: collapse;
+      }
+
+      td,
+      th {
+        border: 1px solid black;
+        padding: 3px;
+        text-align: center;
+      }
+
+      th {
+        font-weight: bold;
+        background-color: #e6e6e6;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div id="calendar"></div>
+
+    <script>
+      function createCell(type, text) {
+        const cell = document.createElement(type);
+        cell.innerText = text;
+        return cell;
+      }
+      function createCalendar(elem, year, month) {
+        const monthDays = new Date(year, month, 0).getDate();
+        const firstDay = new Date(year, month - 1, 1).getDay();
+        const prePlaceHolderCount = firstDay == 0 ? 6 : firstDay - 1; // number of placeholder element in the first row
+        const postPlaceHolderCount =
+          7 - ((monthDays + prePlaceHolderCount) % 7); // number of placeholder element in the last row
+        const tdTotal = monthDays + prePlaceHolderCount + postPlaceHolderCount;
+
+        const calendarTable = document.createElement('table');
+        elem.append(calendarTable);
+
+        const calendarHeader = calendarTable.createTHead();
+        const headerRow = calendarHeader.insertRow();
+
+        const weekDays = ['MO', 'TO', 'WE', 'TH', 'FR', 'SA', 'SU'];
+        for (const weekDay of weekDays) {
+          headerRow.append(createCell('th', weekDay));
+        }
+        const calendarBody = calendarTable.createTBody();
+        let bodyRow;
+        for (let i = 1; i <= tdTotal; i += 1) {
+          if ((i + 6) % 7 == 0) {
+            bodyRow = calendarBody.insertRow();
+          }
+
+          // for date within the date range (e.g. 1-31), set text to the number of date; other, set it to ''
+          const text =
+            i > prePlaceHolderCount && i < tdTotal - postPlaceHolderCount
+              ? '' + i - prePlaceHolderCount
+              : '';
+          bodyRow.append(createCell('td', text));
+        }
+      }
+      const currentYear = new Date().getFullYear();
+      const currentMonth = new Date().getMonth() + 1;
+      const dateInput = prompt(
+        'please enter the year and month you want to show (e.g 2022,5)',
+        `${currentYear},${currentMonth}`
+      ).split(',');
+      const yearSelected = dateInput[0];
+      const monthSelected = dateInput[1];
+      createCalendar(calendar, yearSelected, monthSelected);
+    </script>
+  </body>
+</html>
