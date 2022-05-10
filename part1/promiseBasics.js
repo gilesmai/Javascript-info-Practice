@@ -50,7 +50,8 @@ async function loadJson(url) {
 // Ask for a user name until github returns a valid user
 async function demoGithubUserAsync() {
   let name = prompt('Enter a name?', 'iliakan');
-  while (true) {
+
+  while (true /*eslint-disable-line no-constant-condition*/) {
     try {
       const user = await loadJson(`https://api.github.com/users/${name}`);
       console.log(`Full name: ${user.name}.`);
