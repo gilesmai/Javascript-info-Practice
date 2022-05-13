@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+  <meta charset='UTF-8'>
+  <link rel='stylesheet' href='findWindowCoordinatesOfTheField.css'>
+  <script>
+    document.onclick = function(e) { // shows click coordinates
+      const coords = document.querySelector('#coords');
+      coords.innerHTML = e.clientX + ':' + e.clientY;
+    };
+  </script>
+  <title>find window coordinates of the field</title>
+</head>
+<body>Click anywhere to get window coordinates.
+<br> That's for testing, to check the result you get by JavaScript.
+<br>
+<div id='coords'>(click coordinates show up here)</div>
+<div id='field'>
+  . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+  . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+  . . . . . . . .
+  . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+  . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+</div>
+<div class='triangle-right' style='left:-20px;top:-176px'>1</div>
+<div class='triangle-right' style='left:-10px;top:-178px'>3</div>
+<div class='triangle-right' style='left:190px;top:-40px'>4</div>
+<div class='triangle-right' style='left:200px;top:-42px'>2</div>
+<div id='button-group'>
+  <input type='button' value='Upper-left, outer corner' onclick='getCoordinates(1)'>
+  <input type='button' value='Bottom-right, outer corner' onclick='getCoordinates(2)'>
+  <input type='button' value='Upper-left, inner corner' onclick='getCoordinates(3)'>
+  <input type='button' value='Bottom-right, inner corner' onclick='getCoordinates(4)'>
+</div>
+<div id='getCoordinates-result'>
+  (getCoordinates function result show up here)
+</div>
+<script>
+  function getCoordinates(option) {
+    /* option value：
+    * 1:Upper-left, outer corner
+    * 2:Bottom-right, outer corner
+    * 3: Upper-left, inner corner
+    * 4: Bottom-right, inner corner
+    *  */
+    const field = document.querySelector('#field');
+    const fieldBox = field.getBoundingClientRect();
+    const result = document.querySelector('#getCoordinates-result');
+    switch (option) {
+      case 1:
+        return result.textContent = [fieldBox.left, fieldBox.top].toString();
+      case 2:
+        return result.textContent = [fieldBox.right, fieldBox.bottom].toString();
+      case 3:
+        return result.textContent = [fieldBox.left + field.clientLeft, fieldBox.top + field.clientTop].toString();
+      case 4:
+        return result.textContent = [fieldBox.left + field.clientLeft + field.clientWidth, fieldBox.top + field.clientTop + field.clientHeight].toString();
+    }
+
+  }
+
+  // ...your code...
+</script>
+</body>
+</html>
