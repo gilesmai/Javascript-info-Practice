@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+  <meta charset='UTF-8' />
+  <meta http-equiv='X-UA-Compatible' content='IE=edge' />
+  <meta name='viewport' content='width=device-width, initial-scale=1.0' />
+  <title>Document</title>
+</head>
+<body>
+<div id='tree'></div>
+<script>
+  let data = {
+    Fish: {
+      trout: {},
+      salmon: {}
+    },
+
+    Tree: {
+      Huge: {
+        sequoia: {},
+        oak: {}
+      },
+      Flowering: {
+        'apple tree': {},
+        magnolia: {}
+      }
+    }
+  };
+
+  function createTreeHTML(container, data) {
+    if (Object.keys(data).length === 0) {
+      return '';
+    }
+    let _html = '<ul>';
+    for (const [key, value] of Object.entries(data)) {
+      const li = document.createElement('li');
+      _html += `<li>${key}`;
+      if (typeof value == 'object') {
+        _html += createTreeHTML(li, value);
+      }
+      _html += '</li>';
+    }
+    _html += '</ul>';
+    container.innerHTML = _html;
+    return _html;
+  }
+
+  function createTreeDOM(container, data) {
+    if (Object.keys(data).length === 0) {
+      return;
+    }
+    const ul = document.createElement('ul');
+    for (const [key, value] of Object.entries(data)) {
+      const li = document.createElement('li');
+      li.innerText = key;
+      console.log(key);
+      if (typeof value == 'object') {
+        createTreeDOM(li, value);
+      }
+      ul.append(li);
+    }
+    container.append(ul);
+  }
+
+  const option = prompt(
+    `which function do you want to call:
+      1: callTreeHTML
+      2: callTreeDOM`,
+    '1'
+  );
+  switch (option) {
+    case '1':
+      createTreeHTML(document.getElementById('tree'), data);
+      break;
+    case '2':
+      createTreeDOM(document.getElementById('tree'), data);
+      break;
+    default:
+      createTreeHTML(document.getElementById('tree'), data);
+  }
+</script>
+</body>
+</html>
