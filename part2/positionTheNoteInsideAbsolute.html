@@ -29,6 +29,21 @@
 
 <script>
   /**
+   * get the document coordinates of an element
+   * @param{HTMLElement} elem     element to get coordinates
+   * @returns {{top: number, left: number, bottom: number, right: number}}
+   */
+  function getCoords(elem) {
+    const elemBox = elem.getBoundingClientRect();
+    return {
+      left: elemBox.left + window.pageXOffset,
+      top: elemBox.top + window.pageYOffset,
+      right: elemBox.right + window.pageXOffset,
+      bottom: elemBox.bottom + window.pageYOffset
+    };
+  }
+
+  /**
    * Positions elem relative to anchor as said in position.
    *
    * @param {HTMLElement} anchor     Anchor element for positioning
@@ -40,20 +55,33 @@
   function positionAt(anchor, position, elem) {
     elem.style.position = 'absolute';
     let elemLeft, elemTop;
-    const anchorBox = anchor.getBoundingClientRect();
+    const anchorCoords = getCoords(anchor);
     switch (position) {
       case 'top-out':
-        elemLeft = anchorBox.left;
-        elemTop = anchorBox.top - elem.offsetHeight;
+        elemLeft = anchorCoords.left;
+        elemTop = anchorCoords.top - elem.offsetHeight;
         break;
       case 'right-out':
-        elemLeft = anchorBox.right;
-        elemTop = anchorBox.top;
+        elemLeft = anchorCoords.right;
+        elemTop = anchorCoords.top;
         break;
       case 'bottom-out':
-        elemTop = anchorBox.bottom;
-        elemLeft = anchorBox.left;
+        elemTop = anchorCoords.bottom;
+        elemLeft = anchorCoords.left;
         break;
+      case 'top-in':
+        elemLeft = anchorCoords.left;
+        elemTop = anchorCoords.top;
+        break;
+      case 'right-in':
+        elemLeft = anchorCoords.right - elem.offsetWidth;
+        elemTop = anchorCoords.top;
+        break;
+      case 'bottom-in':
+        elemTop = anchorCoords.bottom - elem.offsetHeight;
+        elemLeft = anchorCoords.left;
+        break;
+
     }
     elem.style.left = elemLeft + 'px';
     elem.style.top = elemTop + 'px';
@@ -74,11 +102,12 @@
   }
 
   // test it
-  let blockquote = document.querySelector('blockquote');
+  const blockquote = document.querySelector('blockquote');
 
-  showNote(blockquote, 'top', 'note above');
-  showNote(blockquote, 'right', 'note at the right');
-  showNote(blockquote, 'bottom', 'note below');
+  showNote(blockquote, 'top-in', 'note top-in');
+  showNote(blockquote, 'top-out', 'note top-out');
+  showNote(blockquote, 'right-out', 'note right-out');
+  showNote(blockquote, 'bottom-in', 'note bottom-in');
 </script>
 
 
