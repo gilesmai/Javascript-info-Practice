@@ -1,0 +1,32 @@
+<!DOCTYPE HTML>
+<html lang='en'>
+
+<head>
+  <meta charset='utf-8'>
+  <title>Hide on click</title>
+</head>
+
+<body>
+
+<input type='button' id='hider' value='Click to hide the text' />
+
+<div id='text'>Text</div>
+
+<script>
+  /**
+   * hide the text div when click
+   */
+  function hideText() {
+    const textElem = document.querySelector('#text');
+    textElem.style.display = 'none';
+  }
+
+  const hider = document.querySelector('#hider');
+  hider.addEventListener('click', hideText);
+
+
+  /* your code */
+</script>
+
+</body>
+</html>
