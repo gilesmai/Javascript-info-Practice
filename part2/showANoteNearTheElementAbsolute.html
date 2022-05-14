@@ -29,6 +29,21 @@
 
 <script>
   /**
+   * get the document coordinates of an element
+   * @param{HTMLElement} elem     element to get coordinates
+   * @returns {{top: number, left: number, bottom: number, right: number}}
+   */
+  function getCoords(elem) {
+    const elemBox = elem.getBoundingClientRect();
+    return {
+      left: elemBox.left + window.pageXOffset,
+      top: elemBox.top + window.pageYOffset,
+      right: elemBox.right + window.pageXOffset,
+      bottom: elemBox.bottom + window.pageYOffset
+    };
+  }
+
+  /**
    * Positions elem relative to anchor as said in position.
    *
    * @param {HTMLElement} anchor     Anchor element for positioning
@@ -38,21 +53,23 @@
    * Both elements: elem and anchor must be in the document
    */
   function positionAt(anchor, position, elem) {
+    // change elem style to absolute
     elem.style.position = 'absolute';
+
     let elemLeft, elemTop;
-    const anchorBox = anchor.getBoundingClientRect();
+    const anchorCoords = getCoords(anchor);
     switch (position) {
       case 'top':
-        elemLeft = anchorBox.left;
-        elemTop = anchorBox.top - elem.offsetHeight;
+        elemLeft = anchorCoords.left;
+        elemTop = anchorCoords.top - elem.offsetHeight;
         break;
       case 'right':
-        elemLeft = anchorBox.right;
-        elemTop = anchorBox.top;
+        elemLeft = anchorCoords.right;
+        elemTop = anchorCoords.top;
         break;
       case 'bottom':
-        elemTop = anchorBox.bottom;
-        elemLeft = anchorBox.left;
+        elemTop = anchorCoords.bottom;
+        elemLeft = anchorCoords.left;
         break;
     }
     elem.style.left = elemLeft + 'px';
