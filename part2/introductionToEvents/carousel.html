@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+  <meta charset='UTF-8'>
+  <link rel='stylesheet' href='carousel.css'>
+  <title>carousel</title>
+</head>
+<body>
+
+<!-- create your markup and styles -->
+
+
+<div class='carousel'>
+  <button class='arrow' id='prev'>⇦</button>
+  <div class='gallery'>
+    <ul id='gallery-ul'>
+      <li><img src='https://en.js.cx/carousel/1.png' alt='1'></li>
+      <li><img src='https://en.js.cx/carousel/2.png' alt='2'></li>
+      <li><img src='https://en.js.cx/carousel/3.png' alt='3'></li>
+      <li><img src='https://en.js.cx/carousel/4.png' alt='4'></li>
+      <li><img src='https://en.js.cx/carousel/5.png' alt='5'></li>
+      <li><img src='https://en.js.cx/carousel/6.png' alt='6'></li>
+      <li><img src='https://en.js.cx/carousel/7.png' alt='7'></li>
+      <li><img src='https://en.js.cx/carousel/8.png' alt='8'></li>
+      <li><img src='https://en.js.cx/carousel/9.png' alt='9'></li>
+      <li><img src='https://en.js.cx/carousel/10.png' alt='10'></li>
+    </ul>
+  </div>
+  <button class='arrow' id='next'>⇨</button>
+</div>
+<script>
+  // ...your code to make carousel alive!
+  const imgWidth = 130;
+  const imgPerPage = 3;
+  const galleryUl = document.querySelector('#gallery-ul');
+  const imgTotal = galleryUl.childElementCount;
+  let currentPosition = 0;
+
+  function clickPrev() {
+    // if (currentPosition === 0) {
+    //   return;
+    // }
+    // const marginLeft = -(imgWidth * (currentPosition - imgPerPage));
+    // currentPosition -= 3;
+    // galleryUl.style.marginLeft = marginLeft + 'px';
+
+    currentPosition += imgWidth * imgPerPage;
+    currentPosition = Math.min(currentPosition, 0);
+    galleryUl.style.transform = `translateX(${currentPosition}px)`;
+  }
+
+  function clickNext() {
+    // if (currentPosition === Math.trunc(imgTotal / imgPerPage) * imgPerPage) {
+    //   return;
+    // }
+    // const marginLeft = -(imgWidth * (currentPosition + imgPerPage));
+    // currentPosition += 3;
+    // galleryUl.style.marginLeft = marginLeft + 'px';
+
+    currentPosition -= imgWidth * imgPerPage;
+    currentPosition = Math.max(currentPosition, -(imgTotal - imgPerPage) * imgWidth);
+    galleryUl.style.transform = `translateX(${currentPosition}px)`;
+  }
+
+  const prevButton = document.querySelector('#prev');
+  const nextButton = document.querySelector('#next');
+  prevButton.addEventListener('click', clickPrev);
+  nextButton.addEventListener('click', clickNext);
+</script>
+
+</body>
+</html>
