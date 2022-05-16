@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+  <meta charset='UTF-8'>
+  <title>Create a sliding menu</title>
+  <style>
+      .toggle-list {
+          display: none;
+      }
+
+      #arrow {
+          color: green;
+      }
+
+      #sweetiesList {
+          list-style: none;
+          padding-left: 20px;
+          margin: 0;
+      }
+  </style>
+</head>
+<body>
+<span id='sweetiesButton' onclick='menuToggle()'><span id='arrow'>▶</span> Sweeties (click me)!</span>
+<ul id='sweetiesList' class='toggle-list'>
+  <li>Cake</li>
+  <li>Donut</li>
+  <li>Honey</li>
+</ul>
+<script>
+  /**
+   * toggle the arrow on click
+   * @param{HTMLElement} arrow
+   */
+  function arrowToggle(arrow) {
+    if (arrow.textContent === '▶') {
+      arrow.textContent = '▼';
+    } else {
+      arrow.textContent = '▶';
+    }
+  }
+
+  /**
+   * click to open/collapses the menu
+   */
+  function menuToggle() {
+    const arrow = document.querySelector('#arrow');
+    arrowToggle(arrow);
+    const menu = document.querySelector('#sweetiesList');
+    menu.classList.toggle('toggle-list');
+  }
+</script>
+
+</body>
+</html>
