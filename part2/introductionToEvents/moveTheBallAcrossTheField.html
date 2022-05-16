@@ -1,0 +1,85 @@
+<!DOCTYPE HTML>
+<html lang='en'>
+
+<head>
+  <meta charset='utf-8'>
+  <style>
+      #field {
+          width: 200px;
+          height: 150px;
+          border: 10px solid black;
+          background-color: #00FF00;
+          overflow: hidden;
+          position: relative;
+      }
+
+      #ball {
+          transition: all, 1s;
+          left: 0;
+          top: 0;
+          position: absolute;
+      }
+  </style>
+  <title>Move the ball across the field</title>
+</head>
+
+<body style='height:2000px'>
+
+Click on a field to move the ball there.
+<br> The ball should never leave the field.
+
+
+<div id='field'>
+  <img src='https://en.js.cx/clipart/ball.svg' id='ball' alt='move the ball across the field'> . . . . . . . . . . . . .
+  . . . . . . . . . . . . . . . . . .
+  . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+  . . . . . . .
+  . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+  . . . . . . . . . . . . . . . . . . . . .
+</div>
+<script>
+  const field = document.querySelector('#field');
+  const fieldBox = field.getBoundingClientRect();
+
+  /**
+   * move the ball to a certain position
+   * @param{MouseEvent} event
+   */
+  function moveBall(event) {
+    const ball = document.querySelector('#ball');
+
+    // the ball has position:absolute, the field: position:relative
+    // so ball coordinates are relative to the field inner left-upper corner
+    const ballCoords = {
+      left: event.clientX - fieldBox.left - field.clientLeft - ball.clientWidth / 2,
+      top: event.clientY - fieldBox.top - field.clientTop - ball.clientHeight / 2
+    };
+
+    // prevent crossing the top field boundary
+    if (ballCoords.top < 0) ballCoords.top = 0;
+
+    // prevent crossing the left field boundary
+    if (ballCoords.left < 0) ballCoords.left = 0;
+
+
+    // // prevent crossing the right field boundary
+    if (ballCoords.left + ball.clientWidth > field.clientWidth) {
+      ballCoords.left = field.clientWidth - ball.clientWidth;
+    }
+
+    // prevent crossing the bottom field boundary
+    if (ballCoords.top + ball.clientHeight > field.clientHeight) {
+      ballCoords.top = field.clientHeight - ball.clientHeight;
+    }
+
+    ball.style.left = ballCoords.left + 'px';
+    ball.style.top = ballCoords.top + 'px';
+  }
+
+  field.addEventListener('click', moveBall);
+
+</script>
+
+
+</body>
+</html>
