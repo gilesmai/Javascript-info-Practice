@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+  <meta charset='UTF-8'>
+  <style>
+      .selected {
+          background: #0f0;
+      }
+
+      li {
+          cursor: pointer;
+      }
+  </style>
+  <title>Selectable List</title>
+</head>
+<body>
+Click on a list item to select it.
+<br>
+
+<ul id='ul'>
+  <li>Christopher Robin</li>
+  <li>Winnie-the-Pooh</li>
+  <li>Tiger</li>
+  <li>Kanta</li>
+  <li>Rabbit. Just rabbit.</li>
+</ul>
+
+<script>
+  const ul = document.getElementById('ul');
+
+  function clearSelection() {
+    [...ul.children].forEach(node => node.classList.remove('selected'));
+  }
+
+  /**
+   * A click on a list element selects only that element (adds the class .selected), deselects all others.
+   * If a click is made with Ctrl (Cmd for Mac), then the selection is toggled on the element, but other elements are not modified.
+   * @param{MouseEvent} event
+   */
+  function selectElement(event) {
+    if (event.ctrlKey || event.metaKey) {
+      event.target.classList.toggle('selected');
+      return;
+    }
+    clearSelection();
+    event.target.className = 'selected';
+    event.preventDefault();
+  }
+
+  ul.addEventListener('click', selectElement);
+  // ul.addEventListener('dblclick', (event) => event.preventDefault());
+  ul.addEventListener('mousedown', (event) => event.preventDefault());
+
+  // ...your code...
+</script>
+
+</body>
+</html>
