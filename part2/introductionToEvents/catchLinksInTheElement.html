@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+  <meta charset='UTF-8'>
+  <title>Catch links in the element</title>
+  <style>
+      #contents {
+          padding: 5px;
+          border: 1px green solid;
+      }
+  </style>
+</head>
+<body>
+
+<fieldset id='contents'>
+  <legend>#contents</legend>
+  <p>
+    How about to read <a href='https://wikipedia.org'>Wikipedia</a> or visit <a href='https://w3.org'><i>W3.org</i></a>
+    and learn about modern standards?
+  </p>
+</fieldset>
+<script>
+  const contents = document.getElementById('contents');
+
+  /**
+   * catch click links event, ask the user if they really want to leave. And if they don’t then don’t follow.
+   * @param{MouseEvent} event
+   */
+  function linkHandler(event) {
+    const linkTarget = event.target.closest('a');
+    if (linkTarget && contents.contains(linkTarget)) {
+      const result = confirm('Do you really want to leave?');
+      if (!result) {
+        event.preventDefault();
+      }
+    }
+  }
+
+
+  contents.addEventListener('click', linkHandler);
+</script>
+</body>
+</html>
