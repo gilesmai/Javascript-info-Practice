@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+  <meta charset='UTF-8'>
+  <link rel='stylesheet' href='imageGallery.css'>
+  <title>Image Gallery</title>
+</head>
+<body>
+
+<p><img id='largeImg' src='https://en.js.cx/gallery/img1-lg.jpg' alt='Large image'></p>
+
+<ul id='thumbs'>
+  <!-- the browser shows a small built-in tooltip on hover with the text from "title" attribute -->
+  <li>
+    <a href='https://en.js.cx/gallery/img2-lg.jpg' title='Image 2'><img
+      src='https://en.js.cx/gallery/img2-thumb.jpg'></a>
+  </li>
+  <li>
+    <a href='https://en.js.cx/gallery/img3-lg.jpg' title='Image 3'><img
+      src='https://en.js.cx/gallery/img3-thumb.jpg'></a>
+  </li>
+  <li>
+    <a href='https://en.js.cx/gallery/img4-lg.jpg' title='Image 4'><img
+      src='https://en.js.cx/gallery/img4-thumb.jpg'></a>
+  </li>
+  <li>
+    <a href='https://en.js.cx/gallery/img5-lg.jpg' title='Image 5'><img
+      src='https://en.js.cx/gallery/img5-thumb.jpg'></a>
+  </li>
+  <li>
+    <a href='https://en.js.cx/gallery/img6-lg.jpg' title='Image 6'><img
+      src='https://en.js.cx/gallery/img6-thumb.jpg'></a>
+  </li>
+</ul>
+</body>
+<script>
+  const thumbs = document.getElementById('thumbs');
+
+  /**
+   * change the main image when click on the corresponding thumbnail
+   * @param{MouseEvent} event
+   */
+  function changeMainImage(event) {
+    const target = event.target;
+    const closeA = target.closest('a');
+    if (closeA && thumbs.contains(target)) {
+      const link = closeA.getAttribute('href');
+      document.getElementById('largeImg').setAttribute('src', link);
+      event.preventDefault();
+    }
+  }
+
+  thumbs.addEventListener('click', changeMainImage);
+</script>
+</html>
