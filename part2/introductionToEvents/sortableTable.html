@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+  <meta charset='UTF-8'>
+  <title>Sortable Table</title>
+  <style>
+      table {
+          border-collapse: collapse;
+      }
+
+      th, td {
+          border: 1px solid black;
+          padding: 4px;
+      }
+
+      th {
+          cursor: pointer;
+      }
+
+      th:hover {
+          background: yellow;
+      }
+  </style>
+</head>
+<body>
+<table id='grid'>
+  <thead>
+  <tr>
+    <th data-type='number'>Age</th>
+    <th data-type='string'>Name</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr>
+    <td>5</td>
+    <td>John</td>
+  </tr>
+  <tr>
+    <td>2</td>
+    <td>Pete</td>
+  </tr>
+  <tr>
+    <td>12</td>
+    <td>Ann</td>
+  </tr>
+  <tr>
+    <td>9</td>
+    <td>Eugene</td>
+  </tr>
+  <tr>
+    <td>1</td>
+    <td>Ilya</td>
+  </tr>
+  </tbody>
+</table>
+
+<script>
+  const sortableDataType = ['string', 'number'];
+
+  /**
+   * sort the table according to the click header if the header data type is string or number
+   * @param{MouseEvent} event
+   */
+  function sortTable(event) {
+    const target = event.target;
+    if (target.tagName !== 'TH' || !sortableDataType.includes(target.dataset.type)) {
+      return;
+    }
+    const table = target.closest('table');
+    const tBodies = table.tBodies;
+    [...tBodies].forEach(tBody => {
+      // cellIndex is the index of th in tr
+      const trNodes = [...tBody.children].sort((a, b) => compareTr(a, b, target.cellIndex, target.dataset.type));
+      tBody.append(...trNodes);
+    });
+  }
+
+  /**
+   * compare tr a and b based on their nth td and tds data type
+   * @param{HTMLTableRowElement} a
+   * @param{HTMLTableRowElement} b
+   * @param{number} position          index of td to be compared
+   * @param{string} type              data type of the td
+   * @return{number}                  compare result
+   */
+  function compareTr(a, b, position, type) {
+    const tdA = a.children[position];
+    const tdB = b.children[position];
+    switch (type) {
+      case 'string':
+        return tdA.textContent.localeCompare(tdB.textContent);
+      case 'number':
+        return tdA.textContent - tdB.textContent;
+    }
+  }
+
+
+  const grid = document.getElementById('grid');
+  grid.addEventListener('click', sortTable);
+
+  // ...your code...
+</script>
+
+</body>
+</html>
