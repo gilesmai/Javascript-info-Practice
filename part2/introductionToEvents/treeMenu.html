@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+  <meta charset='UTF-8'>
+  <title>Tree menu</title>
+</head>
+<style>
+    .tree span:hover {
+        font-weight: bold;
+        cursor: pointer;
+    }
+</style>
+<body>
+<ul class='tree' id='tree'>
+  <li>Animals
+    <ul>
+      <li>Mammals
+        <ul>
+          <li>Cows</li>
+          <li>Donkeys</li>
+          <li>Dogs</li>
+          <li>Tigers</li>
+        </ul>
+      </li>
+      <li>Other
+        <ul>
+          <li>Snakes</li>
+          <li>Birds</li>
+          <li>Lizards</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>Fishes
+    <ul>
+      <li>Aquarium
+        <ul>
+          <li>Guppy</li>
+          <li>Angelfish</li>
+        </ul>
+      </li>
+      <li>Sea
+        <ul>
+          <li>Sea trout</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+<script>
+  const tree = document.getElementById('tree');
+
+  function addSpan() {
+    const liNodes = tree.querySelectorAll('li');
+    for (const li of liNodes) {
+      const span = document.createElement('span');
+      span.append(li.childNodes[0]);
+      li.prepend(span);
+    }
+  }
+
+  /**
+   * toggle to show/hide tree node when click
+   * @param{MouseEvent} event
+   */
+  function toggleTree(event) {
+    const target = event.target;
+    if (target.tagName === 'SPAN') {
+      const liNodes = target.parentElement.querySelectorAll('ul');
+      liNodes.forEach(node => node.hidden = !node.hidden);
+    }
+  }
+
+  tree.addEventListener('click', toggleTree);
+
+
+  addSpan();
+
+
+</script>
+</body>
+</html>
