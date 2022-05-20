@@ -131,3 +131,5 @@ dist
 #vscode setting
 .vscode/
 settings.json
+
+test.js
