@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang='en'>
+<head>
+  <meta charset='UTF-8'>
+  <meta name='viewport'
+        content='width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0'>
+  <meta http-equiv='X-UA-Compatible' content='ie=edge'>
+  <link rel='stylesheet' href='smartTooltip.css'>
+  <title>Smart Tooltip</title>
+</head>
+<body>
+<div id='elem' class='clock'>
+  <span class='hours'>12</span> :
+  <span class='minutes'>30</span> :
+  <span class='seconds'>00</span>
+</div>
+
+<div id='tooltip' hidden>Tooltip</div>
+
+<script>
+  const elem = document.getElementById('elem');
+  const tooltip = document.getElementById('tooltip');
+
+  class HoverIntent {
+    elem;
+    overFunc;
+    outFunc;
+    sensitivity = 0.1;  // speed more than 0.1 pixel per ms is defined as 'fast' :)
+    interval = 100;  // measure the speed every 100ms
+
+    /**
+     * @param{HTMLElement} elem
+     * @param{Function} over
+     * @param{Function} out
+     */
+    constructor({ elem, over, out }) {
+      this.elem = elem;
+      this.overFunc = over;
+      this.outFunc = out;
+
+      this.measureSpeed = this.throttle(this.measureSpeed.bind(this), this.interval);
+      this.elem.onmousemove = this.measureSpeed;
+    };
+
+    /**
+     *show tooltip if the mouse move slow or stop
+     * @param{MouseEvent} event
+     */
+    showTooltip(event) {
+
+    }
+
+    removeTooltip(event) {
+    }
+
+    /**
+     * create a throttle wrapper function
+     * @param{Function} func
+     * @param{number} ms
+     * @returns {Function} wrapper
+     */
+    throttle(func, ms) {
+      let lastThis;
+      let lastArgs;
+      let throttlePause = false;
+
+      function wrapper(...args) {
+        if (throttlePause) {
+          lastThis = this;
+          lastArgs = args;
+          return;
+        }
+        throttlePause = true;
+        func.apply(this, args);
+        setTimeout(() => {
+          throttlePause = false;
+          if (lastArgs) {
+            wrapper.apply(lastThis, lastArgs);
+            lastArgs = null;
+            lastThis = null;
+          }
+        }, ms);
+      }
+
+      return wrapper;
+    }
+
+    measureSpeed(event) {
+      if (!this.lastX || !this.lastY) {
+        this.lastX = event.pageX;
+        this.lastY = event.pageY;
+      }
+      const distance = Math.sqrt(Math.pow(this.lastX - event.pageX, 2) + Math.pow(this.lastY - event.pageY, 2));
+      const speed = distance / this.interval;
+      if (speed >= this.sensitivity) {
+        console.log('show Tooltip');
+      } else {
+        console.log('Do not show tooltip');
+      }
+      this.lastX = event.pageX;
+      this.lastY = event.pageY;
+    }
+  }
+
+
+  new HoverIntent({
+    elem,
+    over() {
+      tooltip.style.left = elem.getBoundingClientRect().left + 5 + 'px';
+      tooltip.style.top = elem.getBoundingClientRect().bottom + 5 + 'px';
+      tooltip.hidden = false;
+    },
+    out() {
+      tooltip.hidden = true;
+    }
+  });
+
+
+</script>
+
+</body>
+</html>
